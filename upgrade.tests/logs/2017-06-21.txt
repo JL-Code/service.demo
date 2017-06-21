@@ -1,0 +1,255 @@
+
+异常时间：2017-06-21 18:13:57,202 [13] 
+异常级别：INFO  
+异 常 类：ErrorAppender [(null)] 
+升级信息: {
+  "DecompressionPath": null,
+  "ZipFilePath": null,
+  "CopyPath": null,
+  "MainSite": null,
+  "DbConnStr": null,
+  "UpgradeVersion": null
+} 
+ 
+异常时间：2017-06-21 18:13:57,254 [13] 
+异常级别：ERROR 
+异 常 类：ErrorAppender [(null)] 
+压缩文件不存在！ 
+ System.IO.FileNotFoundException: 压缩文件不存在！
+   在 mecode.toolkit.CompressUtil.DecompressFile(String zipFilePath, String targetFilePath, String pwd) 位置 E:\00_Workspace\MyProject\service.demo\mecode.toolkit\CompressUtil.cs:行号 227
+   在 mecode.toolkit.AutoUpgradeManager.UnPack(String source, String destination) 位置 E:\00_Workspace\MyProject\service.demo\mecode.toolkit\AutoUpgrade\AutoUpgradeManager.cs:行号 99
+   在 mecode.toolkit.AutoUpgradeManager.Run(UpgradeInfo info) 位置 E:\00_Workspace\MyProject\service.demo\mecode.toolkit\AutoUpgrade\AutoUpgradeManager.cs:行号 18
+   在 upgrade.tests.Controllers.UpgradeController.StartUpgrade(UpgradeInfo info) 位置 E:\00_Workspace\MyProject\service.demo\upgrade.tests\Controllers\UpgradeController.cs:行号 27
+
+异常时间：2017-06-21 18:14:25,724 [8] 
+异常级别：INFO  
+异 常 类：ErrorAppender [(null)] 
+升级信息: {
+  "DecompressionPath": null,
+  "ZipFilePath": null,
+  "CopyPath": null,
+  "MainSite": null,
+  "DbConnStr": null,
+  "UpgradeVersion": null
+} 
+ 
+异常时间：2017-06-21 18:14:25,778 [8] 
+异常级别：ERROR 
+异 常 类：ErrorAppender [(null)] 
+压缩文件不存在！ 
+ System.IO.FileNotFoundException: 压缩文件不存在！
+   在 mecode.toolkit.CompressUtil.DecompressFile(String zipFilePath, String targetFilePath, String pwd) 位置 E:\00_Workspace\MyProject\service.demo\mecode.toolkit\CompressUtil.cs:行号 227
+   在 mecode.toolkit.AutoUpgradeManager.UnPack(String source, String destination) 位置 E:\00_Workspace\MyProject\service.demo\mecode.toolkit\AutoUpgrade\AutoUpgradeManager.cs:行号 99
+   在 mecode.toolkit.AutoUpgradeManager.Run(UpgradeInfo info) 位置 E:\00_Workspace\MyProject\service.demo\mecode.toolkit\AutoUpgrade\AutoUpgradeManager.cs:行号 18
+   在 upgrade.tests.Controllers.UpgradeController.StartUpgrade(UpgradeInfo info) 位置 E:\00_Workspace\MyProject\service.demo\upgrade.tests\Controllers\UpgradeController.cs:行号 27
+
+异常时间：2017-06-21 18:16:23,878 [12] 
+异常级别：INFO  
+异 常 类：ErrorAppender [(null)] 
+升级信息: {
+  "DecompressionPath": "E:\\1.0.0",
+  "ZipFilePath": "E:\\1.0.0.zip",
+  "CopyPath": "E:\\1.0.0\\*",
+  "MainSite": {
+    "Name": "UpgradeSiteTest",
+    "PhysicalPath": "E:\u0003_ReleaseWebSiteUpgradeSiteTest",
+    "DomainName": "",
+    "BindingInformation": "*:806:",
+    "HostName": null,
+    "Port": 806,
+    "IPAddress": "*",
+    "DefaultPage": "http://localhost:806/home/windowsSignalrTest"
+  },
+  "DbConnStr": "server=.;uid=sa;pwd=123456;database=dev",
+  "UpgradeVersion": "1.0.0"
+} 
+ 
+异常时间：2017-06-21 18:16:29,502 [12] 
+异常级别：INFO  
+异 常 类：ErrorAppender [(null)] 
+停止站点: 
+ 
+ 
+异常时间：2017-06-21 18:16:41,890 [12] 
+异常级别：ERROR 
+异 常 类：ErrorAppender [(null)] 
+路径中具有非法字符。 
+ System.Management.Automation.CmdletProviderInvocationException: 路径中具有非法字符。 ---> System.ArgumentException: 路径中具有非法字符。
+   在 System.IO.Path.CheckInvalidPathChars(String path, Boolean checkAdditional)
+   在 System.IO.Path.GetFileName(String path)
+   在 System.Management.Automation.Utils.IsReservedDeviceName(String destinationPath)
+   在 System.Management.Automation.Utils.NativeItemExists(String path, Boolean& isDirectory, Exception& exception)
+   在 System.Management.Automation.Utils.NativeDirectoryExists(String path)
+   在 Microsoft.PowerShell.Commands.FileSystemProvider.IsItemContainer(String path)
+   在 System.Management.Automation.SessionStateInternal.IsItemContainer(CmdletProvider providerInstance, String path, CmdletProviderContext context)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Management.Automation.Runspaces.PipelineBase.Invoke(IEnumerable input)
+   在 System.Management.Automation.Runspaces.Pipeline.Invoke()
+   在 mecode.toolkit.PowerShellUtil.RunScript(String scriptText) 位置 E:\00_Workspace\MyProject\service.demo\mecode.toolkit\PowerShellUtil.cs:行号 39
+   在 mecode.toolkit.AutoUpgradeManager.TryCopyItem(String source, String destination) 位置 E:\00_Workspace\MyProject\service.demo\mecode.toolkit\AutoUpgrade\AutoUpgradeManager.cs:行号 78
+   在 mecode.toolkit.AutoUpgradeManager.Run(UpgradeInfo info) 位置 E:\00_Workspace\MyProject\service.demo\mecode.toolkit\AutoUpgrade\AutoUpgradeManager.cs:行号 23
+   在 upgrade.tests.Controllers.UpgradeController.StartUpgrade(UpgradeInfo info) 位置 E:\00_Workspace\MyProject\service.demo\upgrade.tests\Controllers\UpgradeController.cs:行号 27
+
+异常时间：2017-06-21 18:17:38,813 [9] 
+异常级别：INFO  
+异 常 类：ErrorAppender [(null)] 
+升级信息: {
+  "DecompressionPath": "E:\\1.0.0",
+  "ZipFilePath": "E:\\1.0.0.zip",
+  "CopyPath": "E:\\1.0.0\\*",
+  "MainSite": {
+    "Name": "UpgradeSiteTest",
+    "PhysicalPath": "E:\\03_ReleaseWebSite\\UpgradeSiteTest",
+    "DomainName": "",
+    "BindingInformation": "*:806:",
+    "HostName": null,
+    "Port": 806,
+    "IPAddress": "*",
+    "DefaultPage": "http://localhost:806/home/windowsSignalrTest"
+  },
+  "DbConnStr": "server=.;uid=sa;pwd=123456;database=dev",
+  "UpgradeVersion": "1.0.0"
+} 
+ 
+异常时间：2017-06-21 18:17:40,489 [9] 
+异常级别：INFO  
+异 常 类：ErrorAppender [(null)] 
+停止站点: 
+ 
+ 
+异常时间：2017-06-21 18:17:40,564 [9] 
+异常级别：INFO  
+异 常 类：ErrorAppender [(null)] 
+站点文件复制: $result = Copy-Item -Path "E:\1.0.0\*" -Destination "E:\03_ReleaseWebSite\UpgradeSiteTest" -Recurse -Force -WhatIf;$result 返回信息: 
+ 
+ 
+异常时间：2017-06-21 18:17:40,778 [9] 
+异常级别：INFO  
+异 常 类：ErrorAppender [(null)] 
+站点文件复制: Copy-Item -Path "E:\1.0.0\*" -Destination "E:\03_ReleaseWebSite\UpgradeSiteTest" -Recurse -Force 返回信息: 
+ 
+ 
+异常时间：2017-06-21 18:17:41,151 [9] 
+异常级别：INFO  
+异 常 类：ErrorAppender [(null)] 
+创建站点中: New-IISSite -BindingInformation "*:806:" -Name "UpgradeSiteTest" -PhysicalPath "E:\03_ReleaseWebSite\UpgradeSiteTest" -Force 
+ 
+异常时间：2017-06-21 18:20:39,951 [9] 
+异常级别：INFO  
+异 常 类：ErrorAppender [(null)] 
+升级信息: {
+  "DecompressionPath": "E:\\1.0.0",
+  "ZipFilePath": "E:\\1.0.0.zip",
+  "CopyPath": "E:\\1.0.0\\*",
+  "MainSite": {
+    "Name": "UpgradeSiteTest",
+    "PhysicalPath": "E:\\03_ReleaseWebSite\\UpgradeSiteTest",
+    "DomainName": "",
+    "BindingInformation": "*:806:",
+    "HostName": null,
+    "Port": 806,
+    "IPAddress": "*",
+    "DefaultPage": "http://localhost:806/home/windowsSignalrTest"
+  },
+  "DbConnStr": "server=.;uid=sa;pwd=123456;database=dev",
+  "UpgradeVersion": "1.0.0"
+} 
+ 
+异常时间：2017-06-21 18:21:31,892 [9] 
+异常级别：ERROR 
+异 常 类：ErrorAppender [(null)] 
+未实现该方法或操作。 
+ System.Management.Automation.CmdletInvocationException: 未实现该方法或操作。 ---> System.NotImplementedException: 未实现该方法或操作。
+   在 Microsoft.Web.Administration.Interop.IAppHostMethodInstance.Execute()
+   在 Microsoft.Web.Administration.ConfigurationElement.ExecuteMethod(String methodName)
+   在 Microsoft.Web.Administration.Site.Stop()
+   在 Microsoft.IIS.Powershell.Commands.StopIISSiteCommand.ProcessRecord()
+   在 System.Management.Automation.Cmdlet.DoProcessRecord()
+   在 System.Management.Automation.CommandProcessor.ProcessRecord()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Management.Automation.Runspaces.PipelineBase.Invoke(IEnumerable input)
+   在 System.Management.Automation.Runspaces.Pipeline.Invoke()
+   在 mecode.toolkit.PowerShellUtil.RunScript(String scriptText) 位置 E:\00_Workspace\MyProject\service.demo\mecode.toolkit\PowerShellUtil.cs:行号 39
+   在 mecode.toolkit.AutoUpgradeManager.StopIISSite(String name) 位置 E:\00_Workspace\MyProject\service.demo\mecode.toolkit\AutoUpgrade\AutoUpgradeManager.cs:行号 109
+   在 mecode.toolkit.AutoUpgradeManager.Run(UpgradeInfo info) 位置 E:\00_Workspace\MyProject\service.demo\mecode.toolkit\AutoUpgrade\AutoUpgradeManager.cs:行号 22
+   在 upgrade.tests.Controllers.UpgradeController.StartUpgrade(UpgradeInfo info) 位置 E:\00_Workspace\MyProject\service.demo\upgrade.tests\Controllers\UpgradeController.cs:行号 27
+
+异常时间：2017-06-21 18:21:47,572 [9] 
+异常级别：INFO  
+异 常 类：ErrorAppender [(null)] 
+升级信息: {
+  "DecompressionPath": "E:\\1.0.0",
+  "ZipFilePath": "E:\\1.0.0.zip",
+  "CopyPath": "E:\\1.0.0\\*",
+  "MainSite": {
+    "Name": "UpgradeSiteTest",
+    "PhysicalPath": "E:\\03_ReleaseWebSite\\UpgradeSiteTest",
+    "DomainName": "",
+    "BindingInformation": "*:806:",
+    "HostName": null,
+    "Port": 806,
+    "IPAddress": "*",
+    "DefaultPage": "http://localhost:806/home/windowsSignalrTest"
+  },
+  "DbConnStr": "server=.;uid=sa;pwd=123456;database=dev",
+  "UpgradeVersion": "1.0.0"
+} 
+ 
+异常时间：2017-06-21 18:22:16,289 [9] 
+异常级别：ERROR 
+异 常 类：ErrorAppender [(null)] 
+未实现该方法或操作。 
+ System.Management.Automation.CmdletInvocationException: 未实现该方法或操作。 ---> System.NotImplementedException: 未实现该方法或操作。
+   在 Microsoft.Web.Administration.Interop.IAppHostMethodInstance.Execute()
+   在 Microsoft.Web.Administration.ConfigurationElement.ExecuteMethod(String methodName)
+   在 Microsoft.Web.Administration.Site.Stop()
+   在 Microsoft.IIS.Powershell.Commands.StopIISSiteCommand.ProcessRecord()
+   在 System.Management.Automation.Cmdlet.DoProcessRecord()
+   在 System.Management.Automation.CommandProcessor.ProcessRecord()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Management.Automation.Runspaces.PipelineBase.Invoke(IEnumerable input)
+   在 System.Management.Automation.Runspaces.Pipeline.Invoke()
+   在 mecode.toolkit.PowerShellUtil.RunScript(String scriptText) 位置 E:\00_Workspace\MyProject\service.demo\mecode.toolkit\PowerShellUtil.cs:行号 39
+   在 mecode.toolkit.AutoUpgradeManager.StopIISSite(String name) 位置 E:\00_Workspace\MyProject\service.demo\mecode.toolkit\AutoUpgrade\AutoUpgradeManager.cs:行号 109
+   在 mecode.toolkit.AutoUpgradeManager.Run(UpgradeInfo info) 位置 E:\00_Workspace\MyProject\service.demo\mecode.toolkit\AutoUpgrade\AutoUpgradeManager.cs:行号 22
+   在 upgrade.tests.Controllers.UpgradeController.StartUpgrade(UpgradeInfo info) 位置 E:\00_Workspace\MyProject\service.demo\upgrade.tests\Controllers\UpgradeController.cs:行号 27
+
+异常时间：2017-06-21 22:02:29,605 [14] 
+异常级别：INFO  
+异 常 类：ErrorAppender [(null)] 
+升级信息: {
+  "DecompressionPath": "E:\\1.0.0",
+  "ZipFilePath": "E:\\1.0.0.zip",
+  "CopyPath": "E:\\1.0.0\\*",
+  "MainSite": {
+    "Name": "UpgradeSiteTest",
+    "PhysicalPath": "E:\\03_ReleaseWebSite\\UpgradeSiteTest",
+    "DomainName": "",
+    "BindingInformation": "*:806:",
+    "HostName": null,
+    "Port": 806,
+    "IPAddress": "*",
+    "DefaultPage": "http://localhost:806/home/windowsSignalrTest"
+  },
+  "DbConnStr": "server=.;uid=sa;pwd=123456;database=dev",
+  "UpgradeVersion": "1.0.0"
+} 
+ 
+异常时间：2017-06-21 22:02:31,156 [14] 
+异常级别：ERROR 
+异 常 类：ErrorAppender [(null)] 
+未实现该方法或操作。 
+ System.Management.Automation.CmdletInvocationException: 未实现该方法或操作。 ---> System.NotImplementedException: 未实现该方法或操作。
+   在 Microsoft.Web.Administration.Interop.IAppHostMethodInstance.Execute()
+   在 Microsoft.Web.Administration.ConfigurationElement.ExecuteMethod(String methodName)
+   在 Microsoft.Web.Administration.Site.Stop()
+   在 Microsoft.IIS.Powershell.Commands.StopIISSiteCommand.ProcessRecord()
+   在 System.Management.Automation.Cmdlet.DoProcessRecord()
+   在 System.Management.Automation.CommandProcessor.ProcessRecord()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Management.Automation.Runspaces.PipelineBase.Invoke(IEnumerable input)
+   在 System.Management.Automation.Runspaces.Pipeline.Invoke()
+   在 mecode.toolkit.PowerShellUtil.RunScript(String scriptText) 位置 E:\00_Workspace\MyProject\service.demo\mecode.toolkit\PowerShellUtil.cs:行号 39
+   在 mecode.toolkit.AutoUpgradeManager.StopIISSite(String name) 位置 E:\00_Workspace\MyProject\service.demo\mecode.toolkit\AutoUpgrade\AutoUpgradeManager.cs:行号 109
+   在 mecode.toolkit.AutoUpgradeManager.Run(UpgradeInfo info) 位置 E:\00_Workspace\MyProject\service.demo\mecode.toolkit\AutoUpgrade\AutoUpgradeManager.cs:行号 22
+   在 upgrade.tests.Controllers.UpgradeController.StartUpgrade(UpgradeInfo info) 位置 E:\00_Workspace\MyProject\service.demo\upgrade.tests\Controllers\UpgradeController.cs:行号 24

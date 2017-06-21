@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>网站升级界面</h2>
+<button type="button" onclick="upgrade()">开始升级测试</button>
+@section scripts{
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        var version = "1.0.0";
+        var mockData = {
+            ZipFilePath: "E:\\" + version + ".zip",
+            DecompressionPath: "E:\\" + version,
+            CopyPath: "E:\\" + version + "\\*",
+            UpgradeVersion: version,
+            DbConnStr: "server=.;uid=sa;pwd=123456;database=dev",
+            MainSite:
+            {
+                Name: "UpgradeSiteTest",
+                PhysicalPath: "E:\\03_ReleaseWebSite\\UpgradeSiteTest",
+                DefaultPage: "http://localhost:806/home/windowsSignalrTest",
+                Port: 806
+            }
+        };
+        console.log(mockData);
+        function upgrade() {
+            var options = {
+                url: '../upgrade/startupgrade',
+                type: 'post',
+                data: { info: mockData },
+                dataType: 'json',
+                success: function (response) {
+                    alert(response);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            };
+            $.ajax(options);
+        }
+
+    </script>
+}
