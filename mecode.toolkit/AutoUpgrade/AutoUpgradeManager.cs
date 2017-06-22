@@ -1,5 +1,6 @@
 ﻿using mecode.toolkit.Entites;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace mecode.toolkit
 {
@@ -17,14 +18,15 @@ namespace mecode.toolkit
             //1.解压升级包
             UnPack(info.ZipFilePath);
             //2.找出并执行sql脚本
-            ExecSqlUtil.ExcuteSqlFile($"{info.CopyPath}\\DbScript\\{info.UpgradeVersion}.sql", info.DbConnStr);
+            ExecSqlUtil.ExcuteSqlFile($"{info.DecompressionPath}\\DbScript\\{info.UpgradeVersion}.sql", info.DbConnStr);
             //3.将升级包复制替换到网站目录
             StopIISSite(info.MainSite.Name);
-            TryCopyItem(info.CopyPath, info.MainSite.PhysicalPath);
-            CopyItem(info.CopyPath, info.MainSite.PhysicalPath);
-            NewIISSite(info.MainSite);
-            StartIISSite(info.MainSite.Name);
-            OpenDefaultBrower(info.MainSite.DomainName);
+            //Debug.WriteLine("开始复制文件...");
+            //CopyItem(info.CopyPath, info.MainSite.PhysicalPath);
+            //Debug.WriteLine("新建IIS站点...");
+            //NewIISSite(info.MainSite);
+            //StartIISSite(info.MainSite.Name);
+            //OpenDefaultBrower(info.MainSite.DomainName);
         }
 
         /// <summary>
@@ -85,9 +87,9 @@ namespace mecode.toolkit
         /// <param name="siteInfo">站点信息</param>
         private void NewIISSite(Site siteInfo)
         {
-            var script = $"New-IISSite -BindingInformation \"{siteInfo.BindingInformation}\" -Name \"{siteInfo.Name}\" -PhysicalPath \"{siteInfo.PhysicalPath}\" -Force";
-            PowerShellUtil.RunScript(script);
+            var script = $"New-Website -Name {siteInfo.Name} -Force -HostHeader {siteInfo.HostName} -IPAddress {siteInfo.IPAddress} -PhysicalPath {siteInfo.PhysicalPath} -Port {siteInfo.Port}";
             Logger.Info($"创建站点中: {script}");
+            PowerShellUtil.RunScript(script);
         }
 
         /// <summary>
@@ -105,7 +107,8 @@ namespace mecode.toolkit
         /// <param name="name">站点名</param>
         private void StopIISSite(string name)
         {
-            var script = $"Stop-IISSite \"{name}\" -Confirm:$false;get-iissite -name \"{name}\"";
+            //var script = $"$e = get-website {name}; if ($e.Count -eq 1) {{ Stop-Website {name}; }}";
+            var script = @"Get-IISSite " + name + "| Where-Object { if ($_.Name -ne ''){Stop-IISSite $_.Name -Confirm:$false; Get-IISSite $_.Name;}};";
             var result = PowerShellUtil.RunScript(script);
             Logger.Info($"停止站点: {result}");
         }
@@ -115,7 +118,7 @@ namespace mecode.toolkit
         /// <param name="name">站点名</param>
         private void StartIISSite(string name)
         {
-            var script = $"Start-IISSite \"{name}\";get-iissite -name \"{name}\"";
+            var script = $"Start-Website \"{name}\";Get-Website -name \"{name}\"";
             var result = PowerShellUtil.RunScript(script);
             Logger.Info($"启动站点: {result}");
         }

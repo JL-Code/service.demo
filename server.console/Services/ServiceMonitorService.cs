@@ -12,7 +12,7 @@ namespace server.console.Services
     /// <summary>
     ///监控服务
     /// </summary>
-    public class ServiceMonitorService : ServiceControl
+    public class ServiceMonitorService : ServiceControl, ServiceSuspend
     {
         private IDisposable app;
         private static string domain = "http://*:8000";
@@ -46,7 +46,8 @@ namespace server.console.Services
                      EnableDetailedErrors = true,
                      EnableJavaScriptProxies = true
                  });
-            });
+             });
+
             return true;
         }
 
@@ -58,8 +59,26 @@ namespace server.console.Services
         public bool Stop(HostControl hostControl)
         {
             Logger.Info($"消息服务已停止");
-            Console.WriteLine($"消息服务已停止");
             app?.Dispose();
+            return true;
+        }
+        /// <summary>
+        /// 暂停
+        /// </summary>
+        /// <param name="hostControl"></param>
+        /// <returns></returns>
+        public bool Pause(HostControl hostControl)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// 继续
+        /// </summary>
+        /// <param name="hostControl"></param>
+        /// <returns></returns>
+        public bool Continue(HostControl hostControl)
+        {
             return true;
         }
     }

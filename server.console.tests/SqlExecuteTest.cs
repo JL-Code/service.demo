@@ -13,7 +13,7 @@ namespace server.console.tests
         [TestMethod]
         public void ExcuteSqlFile_SQLFile_Success()
         {
-            var path = "E:\\dev_test.sql";
+            var path = "E:\\1.0.1.sql";
             ExecSqlUtil.ExcuteSqlFile(path, connstr);
         }
     }

@@ -3,10 +3,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using log4net;
 using System.Reflection;
 using mecode.toolkit;
-using server.console.Entities;
-using server.console.Services;
 using System.IO;
 using System.Collections.Generic;
+using mecode.toolkit.Entites;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace service.tests
@@ -59,7 +58,7 @@ namespace service.tests
         [TestMethod]
         public void UpgradeSite_UpgradeInfo_Success()
         {
-            var version = "1.0.0";
+            var version = "1.0.1";
             try
             {
                 var info = new UpgradeInfo

@@ -8,7 +8,7 @@ using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace server.console.Hubs
+namespace server.console
 {
     /// <summary>
     /// 服务监控中心
@@ -21,25 +21,25 @@ namespace server.console.Hubs
         /// </summary>
         static ServiceMonitorHub()
         {
-            Task.Run(() =>
-            {
-                while (true)
-                {
-                    //获取所有服务名称以Hyper开头的服务
-                    var services = ServiceController
-                    .GetServices()
-                    .Where(t => t.DisplayName.StartsWith("Hyper"))
-                    .Select(t => new Entities.Service
-                    {
-                        DisplayName = t.DisplayName,
-                        ServiceName = t.ServiceName,
-                        Status = (int)t.Status
-                    });
-                    GlobalHost.ConnectionManager.GetHubContext<ServiceMonitorHub>().Clients.All.refresh(services);
-                    //休眠一秒，实现每秒推送服务运行状态
-                    Thread.Sleep(3000);
-                }
-            }).Start();
+            //Task.Run(() =>
+            //{
+            //    while (true)
+            //    {
+            //        //获取所有服务名称以Hyper开头的服务
+            //        var services = ServiceController
+            //        .GetServices()
+            //        .Where(t => t.DisplayName.StartsWith("Hyper"))
+            //        .Select(t => new Entities.Service
+            //        {
+            //            DisplayName = t.DisplayName,
+            //            ServiceName = t.ServiceName,
+            //            Status = (int)t.Status
+            //        });
+            //        GlobalHost.ConnectionManager.GetHubContext<ServiceMonitorHub>().Clients.All.refresh(services);
+            //        //休眠一秒，实现每秒推送服务运行状态
+            //        Thread.Sleep(3000);
+            //    }
+            //}).Start();
         }
 
         /// <summary>
@@ -80,6 +80,7 @@ namespace server.console.Hubs
         public void Info(string message)
         {
             Logger.Info(message);
+            Clients.All.addInfo(message);
         }
         /// <summary>
         /// 停止站点

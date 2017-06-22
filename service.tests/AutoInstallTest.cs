@@ -1,6 +1,5 @@
 ﻿using mecode.toolkit;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using server.console;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -55,7 +55,7 @@ namespace mecode.toolkit
             {
                 foreach (string sql in sqlList)
                 {
-                    if(!string.IsNullOrEmpty(sql))
+                    if (!string.IsNullOrEmpty(sql))
                     {
                         command.CommandText = sql;
                         command.ExecuteNonQuery();
@@ -84,30 +84,28 @@ namespace mecode.toolkit
             ArrayList sqlList = new ArrayList();
             if (!File.Exists(filePath))
                 return sqlList;
-
-            StreamReader reader = new StreamReader(filePath, System.Text.Encoding.Default);
-
-            string commandText = "", line = "";
-
-            while (reader.Peek() > -1)
+            using (var reader = new StreamReader(filePath, System.Text.Encoding.Default))
             {
-                line = reader.ReadLine();
-                if (line == "")
-                    continue;
+                string commandText = "", line = "";
+                while (reader.Peek() > -1)
+                {
+                    line = reader.ReadLine();
+                    if (line == "")
+                        continue;
 
-                if (!line.TrimEnd().TrimStart().ToUpper().Equals("GO"))
-                {
-                    commandText += line;
-                    commandText += "\r\n";
+                    if (!line.TrimEnd().TrimStart().ToUpper().Equals("GO"))
+                    {
+                        commandText += line;
+                        commandText += "\r\n";
+                    }
+                    else
+                    {
+                        sqlList.Add(commandText);
+                        commandText = "";
+                    }
                 }
-                else
-                {
-                    sqlList.Add(commandText);
-                    commandText = "";
-                }
+                reader.Close();
             }
-            reader.Close();
-
             return sqlList;
         }
     }

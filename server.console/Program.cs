@@ -14,6 +14,7 @@ namespace server.console
                 s.SetDisplayName("Windows实时消息服务测试");
                 //设置服务自动运行
                 s.StartAutomatically();
+                s.EnablePauseAndContinue();
             });
         }
     }

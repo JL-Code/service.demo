@@ -274,6 +274,7 @@ namespace mecode.toolkit
                     }
 
                     zipStream.Close();
+                    zipStream.Dispose();
                 }
             }
             catch (Exception e)
