@@ -123,9 +123,6 @@ namespace service.tests
             {
                 var temp = path + "\\" + i;
                 CompressUtil.DecompressFile(@"E:\\1.0.1.zip", temp);
-                var stopiis = @"Get-IISSite 'Default Web Site' | Where-Object { if ($_.Name -ne ''){Stop-IISSite $_.Name -Confirm:$false; Get-IISSite $_.Name;}};";
-                var result = PowerShellUtil.RunScript(stopiis);
-                Console.WriteLine(result);
                 var script = $"Copy-Item -Path \"{temp + "\\1.0.1"}\" -Destination \"{temp + "\\copy"}\" -Recurse -Force";
                 PowerShellUtil.RunScript(script);
             }

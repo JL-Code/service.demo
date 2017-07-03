@@ -71,6 +71,7 @@
     <Compile Include="CacheTest.cs" />
     <Compile Include="DESTests.cs" />
     <Compile Include="EFTests.cs" />
+    <Compile Include="FileTest.cs" />
     <Compile Include="LogUtil.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

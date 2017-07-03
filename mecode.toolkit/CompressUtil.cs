@@ -263,8 +263,8 @@ namespace mecode.toolkit
                                         writeStream.Write(buffer, 0, readLength);
                                     } while (readLength == bufferSize);
 
-                                    writeStream.Flush();
-                                    writeStream.Close();
+                                    //writeStream.Flush();
+                                    //writeStream.Close();
                                 }
                                 fileItem.LastWriteTime = zipEntry.DateTime;
                             }
@@ -273,8 +273,8 @@ namespace mecode.toolkit
                         zipEntry = zipStream.GetNextEntry();
                     }
 
-                    zipStream.Close();
-                    zipStream.Dispose();
+                    //zipStream.Close();
+                    //zipStream.Dispose();
                 }
             }
             catch (Exception e)
