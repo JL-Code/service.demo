@@ -1,0 +1,28 @@
+.container {
+    background-color: #99CCFF;
+    border: thick solid #808080;
+    padding: 20px;
+    margin: 20px;
+}
+
+.container p {
+    margin: 0;
+    padding: 0 5px;
+    background-color: #fff;
+    font-size: 14px;
+    color: #333;
+    font-family: "Consolas";
+}
+
+.text-red {
+    color: red;
+}
+.text-yellow {
+    color: yellow;
+}
+.text-green {
+    color: green;
+}
+.text-blue {
+    color: dodgerblue;
+}

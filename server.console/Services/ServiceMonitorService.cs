@@ -23,6 +23,7 @@ namespace server.console.Services
         static ServiceMonitorService()
         {
             domain = ConfigurationManager.AppSettings["Domain"] ?? domain;
+            FileUtil.Write($"{AppDomain.CurrentDomain.BaseDirectory}\\UpgradeSite\\config.js", $"var upgrade_service_address = '{domain}';");
             Logger.Info($"获取配置:{domain}");
         }
 
@@ -44,7 +45,8 @@ namespace server.console.Services
                  {
                      EnableJSONP = true,
                      EnableDetailedErrors = true,
-                     EnableJavaScriptProxies = true
+                     //禁用js代理
+                     EnableJavaScriptProxies = false
                  });
              });
 

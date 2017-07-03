@@ -1,4 +1,6 @@
-﻿namespace mecode.toolkit.Entites
+﻿using System.Collections.Generic;
+
+namespace mecode.toolkit.Entites
 {
     /// <summary>
     /// 升级信息
@@ -8,15 +10,8 @@
         /// <summary>
         /// 解压路径
         /// </summary>
-        public string DecompressionPath { get; set; }
-        /// <summary>
-        /// 压缩文件路径
-        /// </summary>
-        public string ZipFilePath { get; set; }
-        /// <summary>
-        /// 复制地址
-        /// </summary>
-        public string CopyPath { get; set; }
+        public string UpzipPath { get; set; }
+
         /// <summary>
         /// 主站
         /// </summary>
@@ -27,9 +22,14 @@
         /// </summary>
         public string DbConnStr { get; set; }
         /// <summary>
-        /// 升级版本
+        /// 升级服务地址 包含端口号
         /// </summary>
-        public string UpgradeVersion { get; set; }
+        public string ServiceAddress { get; set; }
+
+        /// <summary>
+        /// 升级包
+        /// </summary>
+        public List<UpgradePackage> UpgradePackages { get; set; }
 
     }
 }

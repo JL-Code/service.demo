@@ -59,35 +59,20 @@ namespace mecode.toolkit
         /// <returns></returns>
         public static string RunFileScript(string path)
         {
-            var scriptText = GetFileContent(path);
-            // create Powershell runspace  
-
-            Runspace runspace = RunspaceFactory.CreateRunspace();
-
-            // open it  
-
-            runspace.Open();
-
-            // create a pipeline and feed it the script text  
-
-            Pipeline pipeline = runspace.CreatePipeline();
-
-            pipeline.Commands.AddScript(scriptText);
-
-            pipeline.Commands.Add("Out-String");
-
-            // execute the script  
-
-            Collection<PSObject> results = pipeline.Invoke();
-
-            // close the runspace  
-
-            runspace.Close();
-
-            // convert the script result into a single string  
-
-            StringBuilder stringBuilder = new StringBuilder();
-
+            var scriptText = FileUtil.GetFileContent(path);
+            Collection<PSObject> results;
+            //创建运行环境
+            using (var runspace = RunspaceFactory.CreateRunspace())
+            {
+                runspace.Open();
+                Pipeline pipeline = runspace.CreatePipeline();
+                pipeline.Commands.AddScript(scriptText);
+                //设置输出为string字符串
+                pipeline.Commands.Add("Out-String");
+                results = pipeline.Invoke();
+            }
+            // 转换脚本输出为一个字符串
+            var stringBuilder = new StringBuilder();
             foreach (PSObject obj in results)
             {
                 stringBuilder.AppendLine(obj.ToString());
@@ -163,24 +148,6 @@ namespace mecode.toolkit
             }
             return stringBuilder.ToString();
         }
-        /// <summary>
-        /// 将文本文件转换为string字符串
-        /// </summary>
-        /// <param name="path">文件路径</param>
-        static string GetFileContent(string path)
-        {
-            string scriptStr;
-            if (!File.Exists(path))
-                throw new Exception("当前文件不存在");
-            using (var fs = new FileStream(path, FileMode.Open))
-            {
-                if (!fs.CanRead)
-                    throw new Exception("当前文件不不可读");
-                var reader = new StreamReader(fs);
-                scriptStr = reader.ReadToEnd();
-                reader.Close();
-            }
-            return scriptStr;
-        }
+
     }
 }

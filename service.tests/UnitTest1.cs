@@ -48,8 +48,8 @@ namespace service.tests
         [TestMethod]
         public void UnZipFolder()
         {
-            var path = "E:\\1.0.0";
-            CompressUtil.DecompressFile(@"E:\\1.0.0.zip");
+            var path = "E:\\1.0.1";
+            CompressUtil.DecompressFile(@"E:\\1.0.1.zip");
             var flag = Directory.Exists(path);
             Assert.AreEqual(flag, true);
         }
@@ -58,39 +58,39 @@ namespace service.tests
         [TestMethod]
         public void UpgradeSite_UpgradeInfo_Success()
         {
-            var version = "1.0.1";
-            try
-            {
-                var info = new UpgradeInfo
-                {
-                    ZipFilePath = $"E:\\{version}.zip",
-                    DecompressionPath = $"E:\\{version}",
-                    CopyPath = $"E:\\{version}\\*",
-                    UpgradeVersion = version,
-                    DbConnStr = "server=.;uid=sa;pwd=123456;database=dev",
-                    MainSite = new Site
-                    {
-                        Name = "UpgradeSiteTest",
-                        PhysicalPath = @"E:\03_ReleaseWebSite\UpgradeSiteTest",
-                        DomainName = "http://localhost:806/home/windowsSignalrTest",
-                        Port = 806
-                    }
-                };
-                Logger.Info("升级信息: " + JsonHelper.ObjectToJSON(info));
-                _manager.Run(info);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex.Message, ex);
-                Assert.Fail(ex.Message);
-            }
+            //var version = "1.0.1";
+            //try
+            //{
+            //    var info = new UpgradeInfo
+            //    {
+            //        ZipFilePath = $"E:\\{version}.zip",
+            //        DecompressionPath = $"E:\\{version}",
+            //        CopyPath = $"E:\\{version}\\*",
+            //        UpgradeVersion = version,
+            //        DbConnStr = "server=.;uid=sa;pwd=123456;database=dev",
+            //        MainSite = new Site
+            //        {
+            //            Name = "UpgradeSiteTest",
+            //            PhysicalPath = @"E:\03_ReleaseWebSite\UpgradeSiteTest",
+            //            DefaultPage = "http://localhost:806/home/windowsSignalrTest",
+            //            Port = 806
+            //        }
+            //    };
+            //    Logger.Info("升级信息: " + JsonHelper.ObjectToJSON(info));
+            //    _manager.Run(info);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Logger.Error(ex.Message, ex);
+            //    Assert.Fail(ex.Message);
+            //}
         }
 
         [TestCategory("自动升级_文件解压")]
         [TestMethod]
         public void CreateIISSite_SiteInfo_Success()
         {
-            _manager.CreateIISSite("E:\\PublishOutput\\*", new Site
+            IISManager.CreateIISSite("E:\\PublishOutput\\*", new Site
             {
                 Name = "PowerShellSite",
                 Port = 805,
@@ -100,7 +100,7 @@ namespace service.tests
 
         }
 
-        [TestCategory("自动升级_文件解压")]
+        [TestCategory("自动升级_文件解压_复制")]
         [TestMethod]
         public void CopyItem_SiteInfo_Success()
         {
@@ -112,6 +112,23 @@ namespace service.tests
                 { "Force",true}
             };
             PowerShellUtil.Run("Copy-Item", dict);
+        }
+
+        [TestCategory("自动升级_文件解压_复制")]
+        [TestMethod]
+        public void CopyItem_Test()
+        {
+            var path = "E:\\1.0.1";
+            for (int i = 0; i < 2; i++)
+            {
+                var temp = path + "\\" + i;
+                CompressUtil.DecompressFile(@"E:\\1.0.1.zip", temp);
+                var stopiis = @"Get-IISSite 'Default Web Site' | Where-Object { if ($_.Name -ne ''){Stop-IISSite $_.Name -Confirm:$false; Get-IISSite $_.Name;}};";
+                var result = PowerShellUtil.RunScript(stopiis);
+                Console.WriteLine(result);
+                var script = $"Copy-Item -Path \"{temp + "\\1.0.1"}\" -Destination \"{temp + "\\copy"}\" -Recurse -Force";
+                PowerShellUtil.RunScript(script);
+            }
         }
     }
 }

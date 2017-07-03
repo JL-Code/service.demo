@@ -16,32 +16,9 @@ namespace server.console
     [HubName("serviceMonitorHub")]
     public class ServiceMonitorHub : Hub
     {
-        /// <summary>
-        /// 静态构造函数 获取所有的windwos服务信息
-        /// </summary>
-        static ServiceMonitorHub()
-        {
-            //Task.Run(() =>
-            //{
-            //    while (true)
-            //    {
-            //        //获取所有服务名称以Hyper开头的服务
-            //        var services = ServiceController
-            //        .GetServices()
-            //        .Where(t => t.DisplayName.StartsWith("Hyper"))
-            //        .Select(t => new Entities.Service
-            //        {
-            //            DisplayName = t.DisplayName,
-            //            ServiceName = t.ServiceName,
-            //            Status = (int)t.Status
-            //        });
-            //        GlobalHost.ConnectionManager.GetHubContext<ServiceMonitorHub>().Clients.All.refresh(services);
-            //        //休眠一秒，实现每秒推送服务运行状态
-            //        Thread.Sleep(3000);
-            //    }
-            //}).Start();
-        }
+        private static readonly string tranferSite = "UpgradeTranferSite";
 
+        #region Hub事件
         /// <summary>
         /// 已连接
         /// </summary>
@@ -49,7 +26,7 @@ namespace server.console
         public override Task OnConnected()
         {
             Logger.Info("signalr正在连接...");
-            return base.OnConnected();  
+            return base.OnConnected();
         }
 
         /// <summary>
@@ -60,7 +37,7 @@ namespace server.console
         public override Task OnDisconnected(bool stopCalled)
         {
             Logger.Info("signalr正在断开连接...");
-            return base.OnDisconnected(stopCalled); 
+            return base.OnDisconnected(stopCalled);
         }
 
         /// <summary>
@@ -72,63 +49,94 @@ namespace server.console
             Logger.Info("signalr正在重新连接...");
             return base.OnReconnected();
         }
+        #endregion
+
+        #region 站点升级      
+        public void UpgradeSite()
+        {
+            try
+            {
+                var path = $"{AppDomain.CurrentDomain.BaseDirectory}\\upgrade.config.json";
+                var upgradeInfo = AutoUpgradeManager.GetUpgradeInfo(path);
+                var manager = new AutoUpgradeManager();
+                manager.TryRun(upgradeInfo, (msg) =>
+                {
+                    Clients.All.notice(new { success = true, msg = msg, level = 1 });
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                Clients.All.notice(new { success = false, msg = ex.Message, level = 4 });
+            }
+        }
 
         /// <summary>
-        /// 记录日志
+        /// 尝试创建升级中转站
+        /// </summary>
+        public void TryCreateUpgradeTransferSite(Site siteInfo)
+        {
+            try
+            {
+                if (siteInfo == null)
+                    throw new ArgumentNullException("siteinfo is null");
+                var rootPath = AppDomain.CurrentDomain.BaseDirectory;
+                siteInfo.PhysicalPath = $"{rootPath}" + siteInfo.PhysicalPath;
+                IISManager.CreateSite(siteInfo);
+                Clients.All.tranfersitecallback(new { success = true, msg = "站点创建成功", url = siteInfo.DefaultPage });
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                Clients.All.tranfersitecallback(new { success = false, msg = ex.Message });
+            }
+
+        }
+
+        /// <summary>
+        /// 设置升级信息
+        /// </summary>
+        /// <param name="config"></param>
+        public void SetUpgradeInfo(UpgradeConfig config)
+        {
+            try
+            {
+                var path = $"{AppDomain.CurrentDomain.BaseDirectory}\\upgrade.config.json";
+                var str = JsonHelper.ObjectToJSON(config);
+                FileUtil.Write(path, str);
+                Clients.Caller.setupgradecallback(new
+                {
+                    success = true,
+                    site = new Site
+                    {
+                        Name = tranferSite,
+                        PhysicalPath = "UpgradeSite",
+                        Port = 3000,
+                        DefaultPage = "http://127.0.0.1:3000"
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                Clients.Caller.setupgradecallback(new { success = false, msg = ex.Message });
+            }
+
+        }
+        #endregion
+
+        #region 服务端调用客户端的方法
+
+        /// <summary>
+        /// 发送消息到客户端
         /// </summary>
         /// <param name="message">消息</param>
-        public void Info(string message)
+        public void Send(string message)
         {
+            //Clients.All.print(message);
             Logger.Info(message);
-            Clients.All.addInfo(message);
         }
-        /// <summary>
-        /// 停止站点
-        /// </summary>
-        /// <param name="site">站点名称</param>
-        public void StopIISSite(string site)
-        {
-            try
-            {
-                var script = $"Stop-IISSite -Name {site} -Confirm:$false;Get-IISSite";
-                var result = PowerShellUtil.RunScript(script);
-                Logger.Info(result);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex.Message, ex);
-            }
-        }
-        /// <summary>
-        /// 启动站点
-        /// </summary>
-        /// <param name="site">站点名称</param>
-        public void StartIISSite(string site)
-        {
-            try
-            {
-                //Start-IISSite "Default Web Site"; Get-IISSite;
-                var result = PowerShellUtil.RunScript($"Start-IISSite {site}; Get-IISSite");
-                Logger.Info(result);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex.Message, ex);
-            }
-        }
-        public void UpgradeSite(UpgradeInfo info)
-        {
-            try
-            {
-                if (info == null)
-                    throw new ArgumentNullException("参数为空");
-                var manager = new AutoUpgradeManager();
-                manager.Run(info);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex.Message, ex);
-            }
-        }
+        #endregion
     }
 }

@@ -56,11 +56,11 @@ namespace service.tests
             PowerShellUtil.RunScript(scripts);
         }
 
-        [TestCategory("自动升级_PowerShell脚本执行")]
+        [TestCategory("自动升级_PowerShell脚本执行_ps1文件")]
         [TestMethod]
         public void LoadFileRunScript()
         {
-            var path = $"{AppDomain.CurrentDomain.BaseDirectory}\\IISSiteManager.ps1";
+            var path = $"{AppDomain.CurrentDomain.BaseDirectory}\\test.ps1";
             var result = PowerShellUtil.RunFileScript(path);
             Console.WriteLine(result);
         }
@@ -69,7 +69,7 @@ namespace service.tests
         [TestMethod]
         public void LoadRunScript()
         {
-            var result = PowerShellUtil.RunScript("Get-IISSite;");
+            var result = PowerShellUtil.RunScript("Write-Host '本机站点列表';Get-IISSite;");
             Console.WriteLine(result);
         }
     }
