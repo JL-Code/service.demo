@@ -48,8 +48,8 @@ namespace service.tests
         [TestMethod]
         public void UnZipFolder()
         {
-            var path = "E:\\1.0.1";
-            CompressUtil.DecompressFile(@"E:\\1.0.1.zip");
+            var path = "E:\\4.6.0.70708";
+            CompressUtil.DecompressFile(@"E:\\4.6.0.70708.zip");
             var flag = Directory.Exists(path);
             Assert.AreEqual(flag, true);
         }

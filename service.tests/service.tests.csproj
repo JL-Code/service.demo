@@ -64,6 +64,9 @@
     <Reference Include="System.Management" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml" />
+    <Reference Include="Zap.Framework">
+      <HintPath>..\..\..\Company\Zap_Upgrade\Zap.Upgrade\packagesExtend\Zap.Framework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdoNetTests.cs" />
@@ -71,6 +74,7 @@
     <Compile Include="CacheTest.cs" />
     <Compile Include="DESTests.cs" />
     <Compile Include="EFTests.cs" />
+    <Compile Include="FileDownloadTest.cs" />
     <Compile Include="FileTest.cs" />
     <Compile Include="LogUtil.cs" />
     <Compile Include="UnitTest1.cs" />
