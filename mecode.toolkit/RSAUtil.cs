@@ -1,24 +1,35 @@
-﻿using System.IO;
+﻿using Newtonsoft.Json;
+using System.IO;
 using System.Security.Cryptography;
+using System.Xml.Serialization;
 
 namespace mecode.toolkit
 {
     public class RSAUtil
     {
+        private const int RsaKeySize = 2048;
+        private const string publicKeyFileName = "RSA.Pub";
+        private const string privateKeyFileName = "RSA.Private";
         /// <summary>
         /// 从本地文件中读取用来签发 Token 的 RSA Key
         /// </summary>
         /// <param name="filePath">存放密钥的文件夹路径</param>
         /// <param name="withPrivate">私人</param>
-        /// <param name="keyParameters"></param>
+        /// <param name="keyParameters">RSA秘钥</param>
         /// <returns></returns>
         public static bool TryGetKeyParameters(string filePath, bool withPrivate, out RSAParameters keyParameters)
         {
-            string filename = withPrivate ? "key.json" : "key.public.json";
+            string filename = withPrivate ? privateKeyFileName : publicKeyFileName;
             keyParameters = default(RSAParameters);
-            if (!Directory.Exists(filePath))
+            var path = Path.Combine(filePath, filename);
+            if (!File.Exists(path))
                 return false;
-            keyParameters = JsonHelper.JSONToObject<RSAParameters>(File.ReadAllText(Path.Combine(filePath, filename)));
+            var rsaXml = File.ReadAllText(path);
+            using (var rsa = new RSACryptoServiceProvider())
+            {
+                rsa.FromXmlString(rsaXml);
+                keyParameters = rsa.ExportParameters(withPrivate);
+            }
             return true;
         }
         /// <summary>
@@ -28,22 +39,25 @@ namespace mecode.toolkit
         /// <returns></returns>
         public static RSAParameters GenerateAndSaveKey(string filePath)
         {
-            RSAParameters publicKeys, privateKeys;
-            using (var rsa = new RSACryptoServiceProvider(2048))
+            RSAParameters privateKeys;
+            string publicKeysStr, privateKeysStr;
+            using (var rsa = new RSACryptoServiceProvider(RsaKeySize))
             {
                 try
                 {
                     privateKeys = rsa.ExportParameters(true);
-                    publicKeys = rsa.ExportParameters(false);
+                    privateKeysStr = rsa.ToXmlString(true);
+                    publicKeysStr = rsa.ToXmlString(false);
                 }
                 finally
                 {
+                    //该值指示是否应在加密服务提供程序 (CSP) 中保留此密钥。
                     rsa.PersistKeyInCsp = false;
                 }
             }
-            File.WriteAllText(Path.Combine(filePath, "key.json"), JsonHelper.ObjectToJSON(privateKeys));
-            File.WriteAllText(Path.Combine(filePath, "key.public.json"), JsonHelper.ObjectToJSON(publicKeys));
+            File.WriteAllText(Path.Combine(filePath, privateKeyFileName), privateKeysStr);
+            File.WriteAllText(Path.Combine(filePath, publicKeyFileName), publicKeysStr);
             return privateKeys;
         }
-    }
+    }   
 }

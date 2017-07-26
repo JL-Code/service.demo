@@ -87,6 +87,7 @@
     <Compile Include="EFDbContext.cs" />
     <Compile Include="ExecSqlUtil.cs" />
     <Compile Include="FileUtil.cs" />
+    <Compile Include="Identity.cs" />
     <Compile Include="JsonHelper.cs" />
     <Compile Include="JwtTokenOptions.cs" />
     <Compile Include="LogHelper.cs" />
