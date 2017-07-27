@@ -10,7 +10,7 @@ namespace ResourceServer.Api.Controllers
 {
     public class TestController : ApiController
     {
-        [Authorize]
+        [BearerAuthorize]
         [RoutePrefix("api/protected")]
         public class ProtectedController : ApiController
         {

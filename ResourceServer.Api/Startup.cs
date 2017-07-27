@@ -1,13 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Owin;
-using Owin;
-using Microsoft.Owin.Security.Jwt;
+﻿using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.DataHandler.Encoder;
-using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Jwt;
+using Microsoft.Owin.Security.OAuth;
+using Owin;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
-
-[assembly: OwinStartup(typeof(ResourceServer.Api.Startup))]
 
 namespace ResourceServer.Api
 {
@@ -15,7 +16,7 @@ namespace ResourceServer.Api
     {
         public void Configuration(IAppBuilder app)
         {
-            var config = new HttpConfiguration();
+            HttpConfiguration config = new HttpConfiguration();
 
             config.MapHttpAttributeRoutes();
 
@@ -29,20 +30,27 @@ namespace ResourceServer.Api
 
         public void ConfigureOAuth(IAppBuilder app)
         {
-            var issuer = "http://jwtauthzsrv.azurewebsites.net";
+            var issuer = "http://douhua.oicp.net";
             var audience = "099153c2625149bc8ecb3e85e03f0022";
             var secret = TextEncodings.Base64Url.Decode("IxrAjDoa2FqElO7IhrSrUJELhUckePEPVpaePlS_Xaw");
 
             // Api controllers with an [Authorize] attribute will be validated with JWT
-            // API控制器与[Authorize]属性来验证JWT
             app.UseJwtBearerAuthentication(
                 new JwtBearerAuthenticationOptions
                 {
                     AuthenticationMode = AuthenticationMode.Active,
-                    AllowedAudiences = new[] { audience },//允许的受众
+                    AllowedAudiences = new[] { audience },
                     IssuerSecurityTokenProviders = new IIssuerSecurityTokenProvider[]
                     {
                         new SymmetricKeyIssuerSecurityTokenProvider(issuer, secret)
+                    },
+                    Provider = new OAuthBearerAuthenticationProvider
+                    {
+                        OnValidateIdentity = context =>
+                        {
+                            context.Ticket.Identity.AddClaim(new System.Security.Claims.Claim("newCustomClaim", "newValue"));
+                            return Task.FromResult<object>(null);
+                        }
                     }
                 });
 
