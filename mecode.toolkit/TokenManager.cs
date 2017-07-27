@@ -41,5 +41,25 @@ namespace mecode.toolkit
             });
             return token;
         }
+
+        public static string CreateJwtToken(ClaimsIdentity claimsIdentity, DateTime expire, string audience, SigningCredentials credentials)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.CreateEncodedJwt(new SecurityTokenDescriptor
+            {//包含用于创建安全令牌的一些信息。
+                Issuer = "TestIssuer", // 指定 Token 签发者，也就是这个签发服务器的名称
+                Audience = audience, // 指定 Token 接收者
+                SigningCredentials = credentials,//签名证书
+                Subject = claimsIdentity, //该JWT所面向的用户，是否使用是可选的
+                Expires = expire //jwt 过期时间
+            });
+            return token;
+        }
+
+
+        public static void ValidToken(string token)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
